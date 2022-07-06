@@ -1,0 +1,17 @@
+defaults:
+  - base_dataset
+name: image_net
+data_dir: ${paths.root}/datasets/ImageNet1K
+batch_size: 512
+num_classes: 1000
+augmentations:
+  RandomResizedCrop:
+    enabled: True
+    size: 224
+  RandomHorizontalFlip:
+    enabled: True
+    p: 0.5
+
+image_size: 224
+logits_file: null
+subset_percent: null

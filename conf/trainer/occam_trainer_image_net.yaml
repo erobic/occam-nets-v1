@@ -1,0 +1,6 @@
+defaults:
+  - occam_trainer
+
+exit_gating:
+  enabled: True
+  train_acc_thresholds: [0.1, 0.2, 0.3, 0.4]

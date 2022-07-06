@@ -1,0 +1,11 @@
+defaults:
+  - dataset: null
+  - task: null
+
+project: occam-networks
+paths:
+  root: /home/robik
+
+expt_suffix: ''
+expt_dir: null #${dataset.name}${dataset.trainval_sub_dir}/predict_${dataset.target_name}/${trainer.name}/${model.name}_${seed}${expt_suffix}
+seed: 1989

@@ -1,0 +1,11 @@
+name: BaseTrainer
+alias: ${trainer.name}
+check_val_every_n_epoch: 10
+limit_train_batches: null
+limit_val_batches: null
+limit_test_batches: null
+use_mixed_precision: False # Set to true to use mixed precision training
+loss:
+  name: CrossEntropyLoss
+precision: 32
+gradient_clip_val: null

@@ -1,0 +1,20 @@
+defaults:
+  - base_dataset
+name: image_net_100
+data_dir: ${paths.root}/datasets/ImageNet1K
+batch_size: 128
+num_classes: 100
+augmentations:
+  RandomResizedCrop:
+    enabled: True
+    size: 224
+    scale: [0.7,1.0]
+    ratio: [1.0, 1.3333333333333333]
+    interpolation: 2
+  RandomHorizontalFlip:
+    enabled: True
+    p: 0.5
+
+image_size: 224
+logits_file: null
+subset_percent: null

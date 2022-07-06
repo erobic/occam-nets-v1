@@ -1,0 +1,13 @@
+defaults:
+  - base_dataset
+name: biased_mnist
+bias_split_name: full
+batch_size: 128
+num_classes: 10
+bias_variables: ['digit', 'digit_color_ix', 'digit_scale_ix', 'digit_position_ix', 'texture_ix', 'texture_color_ix', 'letter_ix', 'letter_color_ix']
+p_bias: 0.95
+target_name: digit
+trainval_sub_dir: ${dataset.bias_split_name}_${dataset.p_bias}
+original_image_size: 160
+image_size: 160
+train_pct: null

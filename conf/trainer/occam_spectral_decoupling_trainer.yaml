@@ -1,0 +1,11 @@
+defaults:
+  - occam_trainer
+name: OccamSpectralDecouplingTrainer
+# Divides the dataset into the groups according to group_by
+# lambdas and gammas are arrays containing # of values equal to the # of groups
+# If 'group_by' is null, you can specify single valued array in lambdas/gammas which will be applied to all the instances
+group_by: null
+lambdas: null
+gammas: null
+
+

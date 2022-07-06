@@ -1,0 +1,5 @@
+defaults:
+  - occam_trainer
+name: OccamPGITrainer
+group_by: 'group_ix'
+invariance_loss_wt_coeff: 50

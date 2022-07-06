@@ -1,0 +1,11 @@
+name: null
+args:
+  lr: null
+  weight_decay: null
+freeze_layers: null
+epochs: null
+lr_warmup:
+  epochs: 0
+  multiplier: null
+lr_scheduler:
+  type: null

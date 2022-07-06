@@ -1,0 +1,5 @@
+defaults:
+  - base_trainer
+name: PGITrainer
+#group_by: 'group_ix'
+invariance_loss_wt_coeff: 50

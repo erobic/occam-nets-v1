@@ -1,0 +1,6 @@
+defaults:
+  - base_trainer
+name: GroupUpweightingTrainer
+group_by: 'group_ix'
+gamma: 0.5
+start_epoch: null

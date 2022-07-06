@@ -1,0 +1,17 @@
+data_dir: ${paths.root}/datasets/${dataset.name}
+num_workers: 8
+num_groups: null
+
+# For biased mnist
+bias_split_name: ''
+trainval_sub_dir: ''
+
+# Sampling
+sampling_type: 'default' # 'balanced', 'subsample'
+sampling_gamma: 0.5
+sampling_attributes: null # e.g., ['y'] for image_net_lt,  ['group_ix'] for datasets with groups
+
+normalize: false
+original_image_size: 224
+image_size: 224
+augmentations:

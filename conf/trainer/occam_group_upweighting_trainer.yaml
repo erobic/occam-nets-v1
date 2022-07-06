@@ -1,0 +1,6 @@
+defaults:
+  - occam_trainer
+name: OccamGroupUpweightingTrainer
+group_by: 'group_ix'
+gamma: 0.5
+start_epoch: null

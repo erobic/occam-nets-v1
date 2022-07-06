@@ -1,0 +1,15 @@
+defaults:
+  - base_config
+  - model: base_model
+  - optimizer: base_optimizer
+  - trainer: base_trainer
+  - override task: train
+cuda: True
+checkpoint_path: null
+data_split: 'test'
+data_sub_split: 'test'
+gpus: 1
+test_only_epoch: ${optimizer.epochs}
+hydra:
+  run:
+    dir: ${paths.root}/occam-networks-outputs/${dataset.name}/${trainer.alias}/${model.name}/${expt_suffix}
