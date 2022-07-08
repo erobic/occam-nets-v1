@@ -11,6 +11,7 @@ from utils.cam_utils import get_class_cams_for_occam_nets
 from netcal.presentation import ReliabilityDiagram
 from netcal.metrics import ECE
 
+
 class OccamTrainer(BaseTrainer):
     """
     Implementation for: OccamNets
@@ -280,26 +281,27 @@ class ExitGateLoss():
 class CalibrationAnalysis():
     def __init__(self, num_exits):
         self.num_exits = num_exits
-        self.exit_ix_to_logits, self.gt_ys = {}, None
+        self.exit_ix_to_logits, self.exit_ix_to_gates, self.gt_ys = {}, {}, None
 
     def update(self, batch, exit_outs):
         """
         Gather per-exit + overall logits
         """
-        overall_logits = 0
+
         for exit_ix in range(self.num_exits):
             cam = exit_outs[f'E={exit_ix}, cam']
+            gate = exit_outs[f'E={exit_ix}, gates']
             logits = F.adaptive_avg_pool2d(cam, (1)).squeeze().detach().cpu()
-            overall_logits += logits
 
             if f'E={exit_ix}' not in self.exit_ix_to_logits:
                 self.exit_ix_to_logits[f'E={exit_ix}'] = logits
-                self.exit_ix_to_logits[f'sum_upto_E={exit_ix}'] = overall_logits
+                self.exit_ix_to_gates[f'E={exit_ix}'] = gate.detach().cpu()
             else:
                 self.exit_ix_to_logits[f'E={exit_ix}'] = torch.cat([self.exit_ix_to_logits[f'E={exit_ix}'], logits],
                                                                    dim=0)
-                self.exit_ix_to_logits[f'sum_upto_E={exit_ix}'] = torch.cat(
-                    [self.exit_ix_to_logits[f'sum_upto_E={exit_ix}'], overall_logits], dim=0)
+                self.exit_ix_to_gates[f'E={exit_ix}'] = torch.cat(
+                    [self.exit_ix_to_gates[f'E={exit_ix}'], gate.detach().cpu()],
+                    dim=0)
 
         if self.gt_ys is None:
             self.gt_ys = batch['y'].detach().cpu().squeeze()
@@ -308,11 +310,17 @@ class CalibrationAnalysis():
 
     def plot_reliability_diagram(self, save_dir, bins=10):
         diagram = ReliabilityDiagram(bins)
-        gt_ys = self.gt_ys.numpy()
+        gt_ys = self.gt_ys
         os.makedirs(save_dir, exist_ok=True)
 
         for exit_ix in self.exit_ix_to_logits:
-            curr_conf = torch.softmax(self.exit_ix_to_logits[exit_ix].float(), dim=1).numpy()
-            ece = ECE(bins).measure(curr_conf, gt_ys)
-            diagram.plot(curr_conf, gt_ys, filename=os.path.join(save_dir, f'{exit_ix}.png'),
+            curr_conf = torch.softmax(self.exit_ix_to_logits[exit_ix].float(), dim=1)
+            ece = ECE(bins).measure(curr_conf.numpy(), gt_ys.numpy())
+            ece_gate = ECE(bins).measure(self.exit_ix_to_gates[exit_ix].float().numpy(),
+                                         (torch.argmax(curr_conf, dim=1) == gt_ys).float().numpy())
+            diagram.plot(curr_conf.numpy(), gt_ys.numpy(), filename=os.path.join(save_dir, f'{exit_ix}.png'),
                          title_suffix=f' ECE={ece}')
+            diagram.plot(self.exit_ix_to_gates[exit_ix].float().numpy(),
+                         (torch.argmax(curr_conf, dim=1) == gt_ys).float().numpy(),
+                         filename=os.path.join(save_dir, f'gate {exit_ix}.png'),
+                         title_suffix=f' ECE={ece_gate}')
