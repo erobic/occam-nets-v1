@@ -71,7 +71,11 @@ def build_dataloaders(cfg):
 
     if cfg.dataset.sampling_type == 'balanced':
         assert cfg.dataset.sampling_attributes is not None
-        loaders['Train'] = build_balanced_loader(loaders['Train'],
+        unshuffled_train_loader = DataLoader(loaders['Train'].dataset, batch_size=cfg.dataset.batch_size, shuffle=False,
+                                             num_workers=cfg.dataset.num_workers,
+                                             collate_fn=loaders['Train'].collate_fn)
+
+        loaders['Train'] = build_balanced_loader(unshuffled_train_loader,
                                                  cfg.dataset.sampling_attributes,
                                                  balanced_sampling_gamma=cfg.dataset.sampling_gamma,
                                                  replacement=True)
