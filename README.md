@@ -1,4 +1,4 @@
-#### OccamNets v1
+#### OccamNets v1 (ECCV 2022 Oral Paper)
 This is the repository for our new paper [OccamNets](https://arxiv.org/abs/2204.02426). In this paper, we apply Occam's razor to neural networks to use only the required network depth and required visual regions. This increases bias robustness.
 
 #### Install the dependencies
