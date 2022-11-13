@@ -2,7 +2,7 @@ from datasets.biased_mnist_dataset import create_biased_mnist_dataloaders, creat
 from datasets.coco_on_places_dataset import create_coco_on_places_dataloaders, \
     create_coco_on_places_dataloader_for_split, create_coco_on_places_with_mask_dataloaders
 from datasets.image_net_dataset import create_image_net_dataloaders, create_image_net_100_dataloaders, \
-    create_image_net_dataloader_for_split
+    create_image_net_dataloader_for_split, create_image_net_100_dataloader_for_split
 from datasets.BAR_dataset import create_BAR_dataloaders
 import logging
 import torch

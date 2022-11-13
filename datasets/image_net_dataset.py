@@ -262,6 +262,12 @@ def create_image_net_100_dataloaders(config):
     return out
 
 
+def create_image_net_100_dataloader_for_split(dataset_cfg, split):
+    dataset_cfg.num_classes = 100
+    dataset_cfg.num_groups = 100
+    return create_image_net_dataloader_for_split(dataset_cfg, split)
+
+
 # def create_image_net_100_dataloaders(config):
 #     config.dataset.num_classes = 100
 #     config.dataset.num_groups = 100
