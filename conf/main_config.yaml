@@ -12,4 +12,4 @@ gpus: 1
 test_only_epoch: ${optimizer.epochs}
 hydra:
   run:
-    dir: ${paths.root}/occam-networks-outputs/${dataset.name}/${trainer.alias}/${model.name}/${expt_suffix}
+    dir: ${paths.root}/occam_net_v1/${dataset.name}/${trainer.alias}/${model.name}/${expt_suffix}

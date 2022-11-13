@@ -206,7 +206,7 @@ def create_image_net_datasets(dataset_cfg):
     split_to_dataset = {'val': {}, 'test': {}}
     split_to_dataset['train'] = create_image_net_dataset_for_split(dataset_cfg, 'Train')
 
-    eval_splits = ['val_mask', 'val']  # 'val'
+    eval_splits = ['val']  # 'val'
     for eval_split in eval_splits:
         split_to_dataset['val'][eval_split.lower()] = create_image_net_dataset_for_split(dataset_cfg, eval_split)
         split_to_dataset['test'][eval_split.lower()] = create_image_net_dataset_for_split(dataset_cfg, eval_split)
@@ -251,20 +251,35 @@ def create_image_net_100_dataloaders(config):
     config.dataset.num_classes = 100
     config.dataset.num_groups = 100
     split_to_datasets = create_image_net_datasets(config.dataset)
-
     out = {}
-    out['Train'] = DataLoader(split_to_datasets['Train'],
-                              batch_size=config.dataset.batch_size,
-                              shuffle=True,
-                              num_workers=config.dataset.num_workers,
-                              collate_fn=dict_collate_fn())
-    out['Test'] = {}
-    # out['Test'] = {'Train': out['Train']}
-    for eval_split in split_to_datasets['Test']:
-        out['Test'][eval_split] = DataLoader(split_to_datasets['Test'][eval_split],
-                                             batch_size=config.dataset.batch_size,
-                                             shuffle=False,
-                                             num_workers=config.dataset.num_workers,
-                                             collate_fn=dict_collate_fn(),
-                                             pin_memory=True)
+    out['train'] = create_image_net_dataloader_for_split(config.dataset, 'Train')
+    out['val'] = {}
+    out['test'] = {}
+    for eval_split in split_to_datasets['test']:
+        out['test'][eval_split] = create_image_net_dataloader_for_split(config.dataset, eval_split)
+    for eval_split in split_to_datasets['val']:
+        out['val'][eval_split] = create_image_net_dataloader_for_split(config.dataset, eval_split)
     return out
+
+
+# def create_image_net_100_dataloaders(config):
+#     config.dataset.num_classes = 100
+#     config.dataset.num_groups = 100
+#     split_to_datasets = create_image_net_datasets(config.dataset)
+#
+#     out = {}
+#     out['train'] = DataLoader(split_to_datasets['train'],
+#                               batch_size=config.dataset.batch_size,
+#                               shuffle=True,
+#                               num_workers=config.dataset.num_workers,
+#                               collate_fn=dict_collate_fn())
+#     out['test'] = {}
+#     # out['Test'] = {'Train': out['Train']}
+#     for eval_split in split_to_datasets['test']:
+#         out['test'][eval_split] = DataLoader(split_to_datasets['test'][eval_split],
+#                                              batch_size=config.dataset.batch_size,
+#                                              shuffle=False,
+#                                              num_workers=config.dataset.num_workers,
+#                                              collate_fn=dict_collate_fn(),
+#                                              pin_memory=True)
+#     return out

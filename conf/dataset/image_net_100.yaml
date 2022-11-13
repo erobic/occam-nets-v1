@@ -1,7 +1,7 @@
 defaults:
   - base_dataset
 name: image_net_100
-data_dir: ${paths.root}/datasets/ImageNet1K
+data_dir: ${paths.root}/datasets/ImageNet
 batch_size: 128
 num_classes: 100
 augmentations:
