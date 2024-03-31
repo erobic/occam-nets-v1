@@ -8,7 +8,7 @@ This is the repository for our new paper [OccamNets](https://arxiv.org/abs/2204.
 - Specify the root directory (where the dataset/logs will be stored) in the `paths.root` entry inside `conf/base_config.yaml`
 
 ### Instructions for each dataset
-#### BiasedMNISTv2 (released under MIT License)
+#### BiasedMNISTv2 (released under Creative Commons Attribution 4.0 International (CC BY 4.0) license)
 - Download BiasedMNISTv2 from: https://drive.google.com/file/d/1_77AKsY5MoYpDnXgNkjWi9n2_mfQBW-F/view?usp=sharing
 - Provide the full path for Biased MNIST in `data_dir` inside `conf/dataset/biased_mnist.yaml`
 - You can also generate Biased MNIST by using/modifying: `./scripts/biased_mnist/generate.sh`
